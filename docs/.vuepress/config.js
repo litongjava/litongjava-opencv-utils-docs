@@ -5,8 +5,8 @@ import { viteBundler } from "@vuepress/bundler-vite";
 export default defineUserConfig({
   lang: "en-US",
 
-  title: "VuePress",
-  description: "My first VuePress Site",
+  title: "Openv Utils",
+  description: "简单易用基于opencv的工具类库",
 
   theme: defaultTheme({
     logo: "https://vuejs.press/images/hero.png",
