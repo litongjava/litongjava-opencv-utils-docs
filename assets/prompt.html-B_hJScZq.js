@@ -1,4 +1,4 @@
-import{_ as e,o as a,c as n,e as t}from"./app-DC6voJ4D.js";const i={},s=t(`<h1 id="prompt" tabindex="-1"><a class="header-anchor" href="#prompt"><span>prompt</span></a></h1><h2 id="编写代码文档" tabindex="-1"><a class="header-anchor" href="#编写代码文档"><span>编写代码文档</span></a></h2><div class="language-text line-numbers-mode" data-ext="text" data-title="text"><pre class="language-text"><code>为代码编写使用文档,包含下面的部分
+import{_ as e,o as a,c as n,e as t}from"./app-CzknUNu4.js";const i={},s=t(`<h1 id="prompt" tabindex="-1"><a class="header-anchor" href="#prompt"><span>prompt</span></a></h1><h2 id="编写代码文档" tabindex="-1"><a class="header-anchor" href="#编写代码文档"><span>编写代码文档</span></a></h2><div class="language-text line-numbers-mode" data-ext="text" data-title="text"><pre class="language-text"><code>为代码编写使用文档,包含下面的部分
 
 1. **简介**：描述类或方法的主要功能和应用场景。
 2. **使用示例**：提供具体的代码示例，展示如何使用类或方法。
