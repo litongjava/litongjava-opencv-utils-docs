@@ -2,28 +2,20 @@
 
 ## 概述
 
-`litongjava-opencv-utils` 是一个基于 OpenCV 的 Java 工具库，旨在提供一系列便利的功能，帮助开发者在 Java 应用程序中轻松实现图像处理和计算机视觉任务。此库封装了多种图像操作的方法，包括图像的读取、保存、形状识别、颜色提取和更多复杂的图像分析功能。
+`java-opencv-utils` 是一个基于 OpenCV 的 Java 工具库，旨在提供一系列便利的功能，帮助开发者在 Java 应用程序中轻松实现图像处理和计算机视觉任务。此库封装了多种图像操作的方法，包括图像的读取、保存、形状识别、颜色提取和更多复杂的图像分析功能。
 
 ## 添加库
 
-litongjava-opencv-utils 已经推送到 maven center,在项目中直接导入即可使用
+java-opencv-utils 已经推送到 maven center,在项目中直接导入即可使用
 
 ### maven
 
 ```xml
 <dependencies>
-    <!-- litongjava-opencv-utils dependency -->
     <dependency>
-        <groupId>com.litongjava</groupId>
-        <artifactId>litongjava-opencv-utils</artifactId>
-        <version>1.0</version>
-        <exclusions>
-            <!-- Excluding logback-classic from the dependency -->
-            <exclusion>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-            </exclusion>
-        </exclusions>
+      <groupId>com.litongjava</groupId>
+      <artifactId>java-opencv-utils</artifactId>
+      <version>1.1.0</version>
     </dependency>
 </dependencies>
 
@@ -32,18 +24,125 @@ litongjava-opencv-utils 已经推送到 maven center,在项目中直接导入即
 ### gradle
 
 ```
-implementation("com.litongjava:litongjava-opencv-utils:1.0")
+implementation("com.litongjava:java-opencv-utils:1.1.0")
 ```
 
-你可以可以排除 logback-classic
 
-```
-implementation("com.litongjava:litongjava-opencv-utils:1.0") {
-  exclude group: 'ch.qos.logback', module: "logback-classic"
+## 使用
+
+### OpenCVLibraryUtils
+
+#### 简介
+
+`OpenCVLibraryUtils` 类提供了一个方法来初始化 OpenCV 库。它确保所需的本地库目录存在，并且将其路径添加到 Java 的库路径中，然后加载 OpenCV 的核心库。这个类对于在 Java 应用程序中正确设置和使用 OpenCV 是必要的，尤其是在涉及本地依赖管理的场合。
+
+#### 使用示例
+
+以下是如何使用 `OpenCVLibraryUtils` 类初始化 OpenCV 库的示例：
+
+```java
+import com.litongjava.opencv.utils.OpenCVLibraryUtils;
+
+public class Example {
+    public static void main(String[] args) {
+        OpenCVLibraryUtils.init();  // 初始化 OpenCV 库
+        // 之后可以进行其他 OpenCV 操作
+    }
 }
 ```
 
-## 使用
+如果有运行在Android上,请使用OpenCVLibraryUtils.init(),如果是运行在windows,macos or linux请使用OpenCV.loadLocally(); 整个生命周期内只需要加载一次
+
+### MatUtils
+
+#### 简介
+
+`MatUtils` 类提供了一系列用于处理 OpenCV 的 `Mat` 对象的实用方法，包括图像的读取、写入、转换及调试输出。此类大大简化了图像文件与 `Mat` 对象之间的转换操作，同时提供了将图像数据上传到服务器的功能。
+
+#### 使用示例
+
+以下是如何使用 `MatUtils` 类进行图像读取、写入和转换的示例：
+
+```java
+import org.opencv.core.Mat;
+import com.litongjava.opencv.utils.MatUtils;
+import java.awt.image.BufferedImage;
+
+public class Example {
+    public static void main(String[] args) {
+        try {
+            // 读取图像
+            Mat image = MatUtils.imread("path/to/image.jpg");
+
+            // 将 Mat 对象写入到文件
+            MatUtils.imwrite("path/to/output.jpg", image);
+
+            // 将 Mat 转换为 BufferedImage
+            BufferedImage bufferedImage = MatUtils.mat2BufferImage(image);
+
+            // 调试输出
+            MatUtils.debugToFile(image, "path/to", "image.jpg", "output.jpg");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+#### 方法说明
+
+##### `public static Mat imread(String imagePath) throws IOException`
+
+读取图像文件到 `Mat` 对象。
+
+###### 参数
+
+- `String imagePath`: 图像文件的路径。
+
+###### 返回值
+
+- `Mat`: 读取的图像数据。
+
+##### `public static void imwrite(String dstPath, Mat dst) throws IOException`
+
+将 `Mat` 对象写入到图像文件。
+
+###### 参数
+
+- `String dstPath`: 目标文件的路径。
+- `Mat dst`: 要写入的 `Mat` 对象。
+
+###### 返回值
+
+- 无。
+
+##### `public static BufferedImage mat2BufferImage(Mat mat)`
+
+将 `Mat` 对象转换为 `BufferedImage`。
+
+###### 参数
+
+- `Mat mat`: 要转换的 `Mat` 对象。
+
+###### 返回值
+
+- `BufferedImage`: 转换后的图像。
+
+##### `public static void debugToFile(Mat mat, String imagePath, String oldName, String newName) throws IOException`
+
+在调试过程中将 `Mat` 对象的图像保存到新文件，帮助跟踪处理过程。
+
+###### 参数
+
+- `Mat mat`: 要保存的 `Mat` 对象。
+- `String imagePath`: 原始图像路径。
+- `String oldName`: 原始文件名。
+- `String newName`: 新文件名。
+
+###### 返回值
+
+- 无。
+
 
 ### ColorDivisionUtils
 
@@ -485,116 +584,6 @@ public class Example {
 
 - `double`: 这四个数中的最大值。
 
-### MatUtils
-
-#### 简介
-
-`MatUtils` 类提供了一系列用于处理 OpenCV 的 `Mat` 对象的实用方法，包括图像的读取、写入、转换及调试输出。此类大大简化了图像文件与 `Mat` 对象之间的转换操作，同时提供了将图像数据上传到服务器的功能。
-
-#### 使用示例
-
-以下是如何使用 `MatUtils` 类进行图像读取、写入和转换的示例：
-
-```java
-import org.opencv.core.Mat;
-import com.litongjava.opencv.utils.MatUtils;
-import java.awt.image.BufferedImage;
-
-public class Example {
-    public static void main(String[] args) {
-        try {
-            // 读取图像
-            Mat image = MatUtils.imread("path/to/image.jpg");
-
-            // 将 Mat 对象写入到文件
-            MatUtils.imwrite("path/to/output.jpg", image);
-
-            // 将 Mat 转换为 BufferedImage
-            BufferedImage bufferedImage = MatUtils.mat2BufferImage(image);
-
-            // 调试输出
-            MatUtils.debugToFile(image, "path/to", "image.jpg", "output.jpg");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-#### 方法说明
-
-##### `public static Mat imread(String imagePath) throws IOException`
-
-读取图像文件到 `Mat` 对象。
-
-###### 参数
-
-- `String imagePath`: 图像文件的路径。
-
-###### 返回值
-
-- `Mat`: 读取的图像数据。
-
-##### `public static void imwrite(String dstPath, Mat dst) throws IOException`
-
-将 `Mat` 对象写入到图像文件。
-
-###### 参数
-
-- `String dstPath`: 目标文件的路径。
-- `Mat dst`: 要写入的 `Mat` 对象。
-
-###### 返回值
-
-- 无。
-
-##### `public static BufferedImage mat2BufferImage(Mat mat)`
-
-将 `Mat` 对象转换为 `BufferedImage`。
-
-###### 参数
-
-- `Mat mat`: 要转换的 `Mat` 对象。
-
-###### 返回值
-
-- `BufferedImage`: 转换后的图像。
-
-##### `public static void debugToFile(Mat mat, String imagePath, String oldName, String newName) throws IOException`
-
-在调试过程中将 `Mat` 对象的图像保存到新文件，帮助跟踪处理过程。
-
-###### 参数
-
-- `Mat mat`: 要保存的 `Mat` 对象。
-- `String imagePath`: 原始图像路径。
-- `String oldName`: 原始文件名。
-- `String newName`: 新文件名。
-
-###### 返回值
-
-- 无。
-
-### OpenCVLibraryUtils
-
-#### 简介
-
-`OpenCVLibraryUtils` 类提供了一个方法来初始化 OpenCV 库。它确保所需的本地库目录存在，并且将其路径添加到 Java 的库路径中，然后加载 OpenCV 的核心库。这个类对于在 Java 应用程序中正确设置和使用 OpenCV 是必要的，尤其是在涉及本地依赖管理的场合。
-
-#### 使用示例
-
-以下是如何使用 `OpenCVLibraryUtils` 类初始化 OpenCV 库的示例：
-
-```java
-import com.litongjava.opencv.utils.OpenCVLibraryUtils;
-
-public class Example {
-    public static void main(String[] args) {
-        OpenCVLibraryUtils.init();  // 初始化 OpenCV 库
-        // 之后可以进行其他 OpenCV 操作
-    }
-}
-```
 
 #### 方法说明
 
