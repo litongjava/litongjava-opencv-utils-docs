@@ -11,13 +11,24 @@ java-opencv-utils 已经推送到 maven center,在项目中直接导入即可使
 ### maven
 
 ```xml
-<dependencies>
+    <!-- 日志框架 -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.3.3</version>
+    </dependency>
+
     <dependency>
       <groupId>com.litongjava</groupId>
       <artifactId>java-opencv-utils</artifactId>
       <version>1.1.0</version>
     </dependency>
-</dependencies>
+    
+    <dependency>
+      <groupId>org.openpnp</groupId>
+      <artifactId>opencv</artifactId>
+      <version>4.7.0-0</version>
+    </dependency>
 
 ```
 
@@ -25,11 +36,44 @@ java-opencv-utils 已经推送到 maven center,在项目中直接导入即可使
 
 ```
 implementation("com.litongjava:java-opencv-utils:1.1.0")
+implementation 'org.openpnp:opencv:4.7.0-0'
 ```
 
 
 ## 使用
 
+### 入门示例
+
+```java
+package com.litongjava.web.opencv;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.opencv.core.Mat;
+import org.opencv.highgui.HighGui;
+
+import com.litongjava.opencv.utils.MatUtils;
+
+import nu.pattern.OpenCV;
+
+public class Demo01 {
+  public static void main(String[] args) throws FileNotFoundException, IOException {
+    // 加载 native
+    OpenCV.loadLocally();
+
+    Mat src = MatUtils.imread("F:\\opencv-images\\person\\flower.png");
+    if (src == null || src.empty()) {
+      System.out.println("empty");
+      return;
+    }
+
+    HighGui.imshow("input", src);
+    HighGui.waitKey(0);
+    HighGui.destroyAllWindows();
+  }
+}
+```
 ### OpenCVLibraryUtils
 
 #### 简介
